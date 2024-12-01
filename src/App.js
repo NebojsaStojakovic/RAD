@@ -8,6 +8,10 @@ import {
   ListItem,
   Checkbox,
   IconButton,
+  Select,
+  InputLabel,
+  FormControl,
+  MenuItem,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -24,6 +28,7 @@ export const App = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [editedItem, setEditedItem] = useState("");
   const [activeTab, setActiveTab] = useState("all");
+  const [sortOption, setSortOption] = useState("");
 
   const filteredItems =
     activeTab === "all"
@@ -38,6 +43,8 @@ export const App = () => {
       id: Date.now(),
       name: newItem,
       completed: false,
+      createdAt: new Date().toISOString(),
+      completedAt: null,
     };
     setItems([...items, newItemObj]);
     setNewItem("");
@@ -54,7 +61,13 @@ export const App = () => {
 
   const handleToggleCompleted = (id) => {
     const updatedItems = items.map((item) =>
-      item.id === id ? { ...item, completed: !item.completed } : item
+      item.id === id
+        ? {
+            ...item,
+            completed: !item.completed,
+            completedAt: item.completed ? null : new Date().toISOString(),
+          }
+        : item
     );
     setItems(updatedItems);
   };
@@ -95,10 +108,40 @@ export const App = () => {
     setItems(reorderedItems);
   };
 
+  const handleSort = (option) => {
+    let sortedItems = [...items];
+    switch (option) {
+      case "addedAsc":
+        sortedItems.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+        break;
+      case "addedDesc":
+        sortedItems.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        break;
+      case "completedAsc":
+        sortedItems.sort(
+          (a, b) =>
+            new Date(a.completedAt || Infinity) -
+            new Date(b.completedAt || Infinity)
+        );
+        break;
+      case "completedDesc":
+        sortedItems.sort(
+          (a, b) => new Date(b.completedAt || 0) - new Date(a.completedAt || 0)
+        );
+        break;
+      default:
+        break;
+    }
+    setItems(sortedItems);
+  };
+
   return (
     <Box className="wrapper">
       <Typography className="title">Grocery List</Typography>
-
       <Box className="input-wrapper">
         <TextField
           fullWidth
@@ -121,19 +164,37 @@ export const App = () => {
           <AddIcon />
         </Button>
       </Box>
-
-      <Box className="tabs-wrapper">
-        {["all", "incomplete", "completed"].map((tab) => (
-          <Button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`tabs ${activeTab === tab && "active"}`}
+      <Box className="tabs-sort-wrapper">
+        <Box className="tabs-wrapper">
+          {["all", "incomplete", "completed"].map((tab) => (
+            <Button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`tabs ${activeTab === tab && "active"}`}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </Button>
+          ))}
+        </Box>
+        <FormControl size="small" className="sort">
+          <InputLabel id="sort-label">Sort by</InputLabel>
+          <Select
+            labelId="sort-label"
+            id="sort-label"
+            value={sortOption}
+            label="Sort by"
+            onChange={(e) => {
+              setSortOption(e.target.value);
+              handleSort(e.target.value);
+            }}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
-          </Button>
-        ))}
+            <MenuItem value="addedAsc">Date Added (Oldest)</MenuItem>
+            <MenuItem value="addedDesc">Date Added (Newest)</MenuItem>
+            <MenuItem value="completedAsc">Date Completed (Oldest)</MenuItem>
+            <MenuItem value="completedDesc">Date Completed (Newest)</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
-
       {filteredItems.length === 0 ? (
         <Typography className="no-items">There are no items.</Typography>
       ) : (
@@ -158,6 +219,9 @@ export const App = () => {
                           {...provided.draggableProps}
                           className="list-item"
                         >
+                          <Typography className="timestamp">
+                            Added: {new Date(item.createdAt).toLocaleString()}
+                          </Typography>
                           <Checkbox
                             checked={item.completed}
                             onChange={() => handleToggleCompleted(item.id)}
@@ -194,6 +258,13 @@ export const App = () => {
                           >
                             <DeleteIcon />
                           </IconButton>
+
+                          {item.completed && (
+                            <Typography className="timestamp">
+                              Completed:{" "}
+                              {new Date(item.completedAt).toLocaleString()}
+                            </Typography>
+                          )}
                         </ListItem>
                       )}
                     </Draggable>
@@ -205,26 +276,10 @@ export const App = () => {
           </DragDropContext>
 
           <Box className="clear-buttons">
-            <Button
-              sx={{
-                color: "#555",
-                fontSize: "12px",
-                "&:hover": { color: "black" },
-              }}
-              onClick={handleClearAll}
-              className="clear-button"
-            >
+            <Button onClick={handleClearAll} className="clear-button">
               Clear All
             </Button>
-            <Button
-              sx={{
-                color: "#555",
-                fontSize: "12px",
-                "&:hover": { color: "black" },
-              }}
-              onClick={handleClearCompleted}
-              className="clear-button"
-            >
+            <Button onClick={handleClearCompleted} className="clear-button">
               Clear Completed
             </Button>
           </Box>

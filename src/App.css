@@ -12,7 +12,8 @@ body {
 
 .wrapper {
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 700px;
+  padding: 20px;
 }
 
 .MuiTypography-root.title {
@@ -44,6 +45,13 @@ body {
   padding: 6px;
 }
 
+.tabs-sort-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .tabs-wrapper {
   display: flex;
   gap: 10px;
@@ -65,6 +73,10 @@ body {
   color: #fff;
 }
 
+.MuiFormControl-root.sort {
+  width: 120px;
+}
+
 .no-items {
   text-align: center;
   background-color: lightblue;
@@ -81,7 +93,7 @@ body {
   background-color: #fff;
   border: 1px solid #d3d3d3;
   border-radius: 4px;
-  padding: 0;
+  padding: 0 5px;
   margin-bottom: 5px;
 }
 
@@ -105,4 +117,13 @@ body {
   font-size: 14px;
   text-transform: initial;
   font-weight: bold;
+  color: #000;
+}
+
+.MuiTypography-root.timestamp {
+  font-size: 10px;
+  max-width: 60px;
+  line-height: initial;
+  color: #000;
+  word-break: break-word;
 }
