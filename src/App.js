@@ -10,6 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"; // Import drag icon
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./App.css";
@@ -34,7 +35,7 @@ export const App = () => {
   const handleAddItem = () => {
     if (newItem.trim() === "") return;
     const newItemObj = {
-      id: Date.now(), // Generate a unique ID using the current timestamp
+      id: Date.now(),
       name: newItem,
       completed: false,
     };
@@ -52,7 +53,6 @@ export const App = () => {
   };
 
   const handleToggleCompleted = (id) => {
-    // Update the item based on its unique id
     const updatedItems = items.map((item) =>
       item.id === id ? { ...item, completed: !item.completed } : item
     );
@@ -96,18 +96,10 @@ export const App = () => {
   };
 
   return (
-    <Box p={3} maxWidth={600} margin="0 auto">
-      <Typography
-        variant="h4"
-        align="center"
-        gutterBottom
-        fontWeight="bold"
-        mb={3}
-      >
-        Shopping List
-      </Typography>
+    <Box className="wrapper">
+      <Typography className="title">Grocery List</Typography>
 
-      <Box display="flex" alignItems="center" gap={2} mb={3}>
+      <Box className="input-wrapper">
         <TextField
           fullWidth
           variant="outlined"
@@ -121,24 +113,21 @@ export const App = () => {
             }
           }}
         />
-        <Button variant="contained" color="success" onClick={handleAddItem}>
-          +
+        <Button
+          variant="contained"
+          onClick={handleAddItem}
+          className="add-button"
+        >
+          <AddIcon />
         </Button>
       </Box>
 
-      <Box display="flex" gap={2} mb={3}>
+      <Box className="tabs-wrapper">
         {["all", "incomplete", "completed"].map((tab) => (
           <Button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            sx={{
-              backgroundColor: activeTab === tab ? "black" : "#d3d3d3",
-              color: activeTab === tab ? "white" : "black",
-              "&:hover": {
-                backgroundColor: "black",
-                color: "white",
-              },
-            }}
+            className={`tabs ${activeTab === tab && "active"}`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </Button>
@@ -146,15 +135,17 @@ export const App = () => {
       </Box>
 
       {filteredItems.length === 0 ? (
-        <Typography align="center" color="textSecondary">
-          There are no items.
-        </Typography>
+        <Typography className="no-items">There are no items.</Typography>
       ) : (
         <>
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="shoppingList">
               {(provided) => (
-                <List {...provided.droppableProps} ref={provided.innerRef}>
+                <List
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="list"
+                >
                   {filteredItems.map((item, index) => (
                     <Draggable
                       key={item.id}
@@ -165,60 +156,44 @@ export const App = () => {
                         <ListItem
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          sx={{
-                            backgroundColor: "white",
-                            border: "1px solid #d3d3d3",
-                            borderRadius: "4px",
-                            mb: 1,
-                          }}
+                          className="list-item"
                         >
-                          <Box display="flex" alignItems="center" width="100%">
-                            <Checkbox
-                              checked={item.completed}
-                              onChange={() => handleToggleCompleted(item.id)}
-                              color="success"
+                          <Checkbox
+                            checked={item.completed}
+                            onChange={() => handleToggleCompleted(item.id)}
+                            color="success"
+                          />
+                          {editIndex === item.id ? (
+                            <TextField
+                              fullWidth
+                              variant="standard"
+                              value={editedItem}
+                              onChange={(e) => setEditedItem(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") handleSaveEdit(item.id);
+                              }}
+                              onBlur={() => handleSaveEdit(item.id)}
+                              autoFocus
                             />
-                            {editIndex === item.id ? (
-                              <TextField
-                                fullWidth
-                                variant="standard"
-                                value={editedItem}
-                                onChange={(e) => setEditedItem(e.target.value)}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter")
-                                    handleSaveEdit(item.id);
-                                }}
-                                onBlur={() => handleSaveEdit(item.id)}
-                                autoFocus
-                              />
-                            ) : (
-                              <Typography
-                                variant="body1"
-                                onClick={() => handleEditItem(item.id)}
-                                style={{
-                                  textDecoration: item.completed
-                                    ? "line-through"
-                                    : "none",
-                                  flex: 1,
-                                  cursor: "pointer",
-                                }}
-                              >
-                                {item.name}
-                              </Typography>
-                            )}
-                            <IconButton
-                              {...provided.dragHandleProps} // Add dragHandleProps to the icon
-                              sx={{ marginLeft: "auto" }} // Optional, for styling
+                          ) : (
+                            <Typography
+                              onClick={() => handleEditItem(item.id)}
+                              className={`list-item-name ${
+                                item.completed && "completed"
+                              }`}
                             >
-                              <DragIndicatorIcon />
-                            </IconButton>
-                            <IconButton
-                              onClick={() => handleDeleteItem(item.id)}
-                              color="error"
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </Box>
+                              {item.name}
+                            </Typography>
+                          )}
+                          <IconButton {...provided.dragHandleProps}>
+                            <DragIndicatorIcon />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => handleDeleteItem(item.id)}
+                            color="error"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
                         </ListItem>
                       )}
                     </Draggable>
@@ -229,7 +204,7 @@ export const App = () => {
             </Droppable>
           </DragDropContext>
 
-          <Box mt={2} display="flex" gap={1}>
+          <Box className="clear-buttons">
             <Button
               sx={{
                 color: "#555",
@@ -237,6 +212,7 @@ export const App = () => {
                 "&:hover": { color: "black" },
               }}
               onClick={handleClearAll}
+              className="clear-button"
             >
               Clear All
             </Button>
@@ -247,6 +223,7 @@ export const App = () => {
                 "&:hover": { color: "black" },
               }}
               onClick={handleClearCompleted}
+              className="clear-button"
             >
               Clear Completed
             </Button>
