@@ -1,7 +1,10 @@
 import { Box, Button } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { ShoppingListContext } from "../ShoppingListContext";
 
-export const ClearButtons = ({ items, setItems }) => {
+export const ClearButtons = () => {
+  const { items, setItems } = useContext(ShoppingListContext);
+
   const handleClearAll = () => {
     setItems([]);
   };

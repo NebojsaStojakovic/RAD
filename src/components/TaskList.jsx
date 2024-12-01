@@ -1,10 +1,13 @@
 import { List } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { DragDropContext } from "react-beautiful-dnd";
 import { TaskListItem } from "./TaskListItem";
+import { ShoppingListContext } from "../ShoppingListContext";
 
-export const TaskList = ({ items, setItems, filteredItems }) => {
+export const TaskList = ({ filteredItems }) => {
+  const { items, setItems } = useContext(ShoppingListContext);
+
   const handleDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -25,13 +28,7 @@ export const TaskList = ({ items, setItems, filteredItems }) => {
             className="list"
           >
             {filteredItems.map((item, index) => (
-              <TaskListItem
-                key={item.id}
-                item={item}
-                index={index}
-                items={items}
-                setItems={setItems}
-              />
+              <TaskListItem key={item.id} item={item} index={index} />
             ))}
             {provided.placeholder}
           </List>

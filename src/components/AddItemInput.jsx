@@ -1,8 +1,11 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ShoppingListContext } from "../ShoppingListContext";
 
-export const AddItemInput = ({ items, setItems }) => {
+export const AddItemInput = () => {
+  const { items, setItems } = useContext(ShoppingListContext);
+
   const [newItem, setNewItem] = useState("");
 
   const handleAddItem = () => {

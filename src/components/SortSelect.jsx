@@ -1,7 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ShoppingListContext } from "../ShoppingListContext";
 
-export const SortSelect = ({ items, setItems }) => {
+export const SortSelect = () => {
+  const { items, setItems } = useContext(ShoppingListContext);
   const [sortOption, setSortOption] = useState("");
 
   const handleSort = (option) => {
@@ -18,16 +20,18 @@ export const SortSelect = ({ items, setItems }) => {
         );
         break;
       case "completedAsc":
-        sortedItems.sort(
-          (a, b) =>
-            new Date(a.completedAt || Infinity) -
-            new Date(b.completedAt || Infinity)
-        );
+        sortedItems.sort((a, b) => {
+          if (!a.completedAt) return 1;
+          if (!b.completedAt) return -1;
+          return new Date(a.completedAt) - new Date(b.completedAt);
+        });
         break;
       case "completedDesc":
-        sortedItems.sort(
-          (a, b) => new Date(b.completedAt || 0) - new Date(a.completedAt || 0)
-        );
+        sortedItems.sort((a, b) => {
+          if (!a.completedAt) return 1;
+          if (!b.completedAt) return -1;
+          return new Date(b.completedAt) - new Date(a.completedAt);
+        });
         break;
       default:
         break;

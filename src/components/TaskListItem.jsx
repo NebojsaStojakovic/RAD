@@ -7,10 +7,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { ShoppingListContext } from "../ShoppingListContext";
 
-export const TaskListItem = ({ item, index, items, setItems }) => {
+export const TaskListItem = ({ item, index }) => {
+  const { items, setItems } = useContext(ShoppingListContext);
+
   const [editIndex, setEditIndex] = useState(null);
   const [editedItem, setEditedItem] = useState("");
 
