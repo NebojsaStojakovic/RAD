@@ -87,6 +87,9 @@ body {
 
 .MuiList-root.list {
   padding: 0;
+  overflow-y: scroll;
+  min-height: 50px;
+  max-height: calc(100vh - 300px);
 }
 
 .MuiListItem-root.list-item {

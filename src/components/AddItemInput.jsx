@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Tooltip } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { ShoppingListContext } from "../ShoppingListContext";
 
@@ -36,13 +36,15 @@ export const AddItemInput = () => {
           }
         }}
       />
-      <Button
-        variant="contained"
-        onClick={handleAddItem}
-        className="add-button"
-      >
-        <AddIcon />
-      </Button>
+      <Tooltip title="Add item" placement="top">
+        <Button
+          variant="contained"
+          onClick={handleAddItem}
+          className="add-button"
+        >
+          <AddIcon />
+        </Button>
+      </Tooltip>
     </Box>
   );
 };
