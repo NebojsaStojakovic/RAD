@@ -1,5 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Checkbox,
   IconButton,
@@ -107,15 +108,24 @@ export const TaskListItem = ({ item, index }) => {
               />
             ) : (
               <Typography
-                onClick={() => handleEditItem(item.id)}
                 className={`list-item-name ${item.completed && "completed"}`}
               >
                 {item.name}
               </Typography>
             )}
-            <Tooltip title="Drag to reorder" placement="top">
-              <IconButton {...provided.dragHandleProps}>
-                <DragIndicatorIcon />
+
+            {item.completed && (
+              <Typography className="timestamp">
+                Completed: {new Date(item.completedAt).toLocaleString()}
+              </Typography>
+            )}
+
+            <Tooltip title="Edit item" placement="top">
+              <IconButton
+                onClick={() => handleEditItem(item.id)}
+                color="primary"
+              >
+                <EditIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete item" placement="top">
@@ -126,12 +136,11 @@ export const TaskListItem = ({ item, index }) => {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-
-            {item.completed && (
-              <Typography className="timestamp">
-                Completed: {new Date(item.completedAt).toLocaleString()}
-              </Typography>
-            )}
+            <Tooltip title="Drag to reorder" placement="top">
+              <IconButton {...provided.dragHandleProps}>
+                <DragIndicatorIcon />
+              </IconButton>
+            </Tooltip>
           </ListItem>
         )}
       </Draggable>
