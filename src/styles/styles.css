@@ -101,7 +101,6 @@ body {
 }
 
 .MuiTypography-root.list-item-name {
-  cursor: pointer;
   flex: 1;
   text-decoration: none;
 }
