@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { ShoppingListContext } from "../ShoppingListContext";
+import { ShoppingListContext } from "../context/ShoppingListContext";
 import { ConfirmationDialog } from "./ConfirmationDialog";
 
 export const TaskListItem = ({ item, index }) => {
@@ -21,6 +21,15 @@ export const TaskListItem = ({ item, index }) => {
   const [editedItem, setEditedItem] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+
+  const handleOpenModal = (id) => {
+    setItemToDelete(id);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleEditItem = (id) => {
     const itemToEdit = items.find((item) => item.id === id);
@@ -53,19 +62,6 @@ export const TaskListItem = ({ item, index }) => {
     setItems(updatedItems);
   };
 
-  const handleOpenModal = (id) => {
-    setItemToDelete(id);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-
-    setTimeout(() => {
-      setItemToDelete(null);
-    }, 300);
-  };
-
   const handleDeleteItem = () => {
     if (itemToDelete) {
       const updatedItems = items.filter((item) => item.id !== itemToDelete);
@@ -87,7 +83,7 @@ export const TaskListItem = ({ item, index }) => {
             className="list-item"
           >
             <Typography className="timestamp">
-              Added: {new Date(item.createdAt).toLocaleString()}
+              Dodato: {new Date(item.createdAt).toLocaleString()}
             </Typography>
             <Checkbox
               checked={item.completed}
@@ -116,11 +112,11 @@ export const TaskListItem = ({ item, index }) => {
 
             {item.completed && (
               <Typography className="timestamp">
-                Completed: {new Date(item.completedAt).toLocaleString()}
+                Zavrseno: {new Date(item.completedAt).toLocaleString()}
               </Typography>
             )}
 
-            <Tooltip title="Edit item" placement="top">
+            <Tooltip title="Uredi" placement="top">
               <IconButton
                 onClick={() => handleEditItem(item.id)}
                 color="primary"
@@ -128,7 +124,7 @@ export const TaskListItem = ({ item, index }) => {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete item" placement="top">
+            <Tooltip title="Obrisi" placement="top">
               <IconButton
                 onClick={() => handleOpenModal(item.id)}
                 color="error"
@@ -136,7 +132,7 @@ export const TaskListItem = ({ item, index }) => {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Drag to reorder" placement="top">
+            <Tooltip title="Promenite redosled" placement="top">
               <IconButton {...provided.dragHandleProps}>
                 <DragIndicatorIcon />
               </IconButton>
@@ -147,8 +143,8 @@ export const TaskListItem = ({ item, index }) => {
 
       <ConfirmationDialog
         open={isModalOpen}
-        title={`Delete ${itemNameToDelete}`}
-        message={`Are you sure you want to delete "${itemNameToDelete}"? This action cannot be undone.`}
+        title={`Obrisi ${itemNameToDelete}`}
+        message={`Da li zelite da obrisete "${itemNameToDelete}"?`}
         onCancel={handleCloseModal}
         onConfirm={handleDeleteItem}
       />

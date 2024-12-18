@@ -16,17 +16,17 @@ export const ConfirmationDialog = ({
   onConfirm,
 }) => {
   return (
-    <Dialog open={open} onClose={onCancel}>
+    <Dialog open={open} onClose={onCancel} TransitionProps={{ timeout: 0 }}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{message}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel} color="primary">
-          Cancel
+          Izadji
         </Button>
         <Button onClick={onConfirm} color="error" variant="contained">
-          Confirm
+          Potvrdi
         </Button>
       </DialogActions>
     </Dialog>

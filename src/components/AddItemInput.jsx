@@ -1,11 +1,10 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, TextField, Tooltip } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { ShoppingListContext } from "../ShoppingListContext";
+import { ShoppingListContext } from "../context/ShoppingListContext";
 
 export const AddItemInput = () => {
   const { items, setItems } = useContext(ShoppingListContext);
-
   const [newItem, setNewItem] = useState("");
 
   const handleAddItem = () => {
@@ -26,7 +25,7 @@ export const AddItemInput = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="Enter item name"
+        placeholder="Unesi ime stavke"
         value={newItem}
         onChange={(e) => setNewItem(e.target.value)}
         onKeyDown={(e) => {
@@ -36,7 +35,7 @@ export const AddItemInput = () => {
           }
         }}
       />
-      <Tooltip title="Add item" placement="top">
+      <Tooltip title="Dodaj" placement="top">
         <Button
           variant="contained"
           onClick={handleAddItem}

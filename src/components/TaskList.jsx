@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { DragDropContext } from "react-beautiful-dnd";
 import { TaskListItem } from "./TaskListItem";
-import { ShoppingListContext } from "../ShoppingListContext";
+import { ShoppingListContext } from "../context/ShoppingListContext";
 
 export const TaskList = ({ filteredItems }) => {
   const { items, setItems } = useContext(ShoppingListContext);

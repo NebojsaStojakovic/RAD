@@ -5,24 +5,24 @@ import { SortSelect } from "./components/SortSelect";
 import { FilterTabs } from "./components/FilterTabs";
 import { AddItemInput } from "./components/AddItemInput";
 import { TaskList } from "./components/TaskList";
-import { ShoppingListContext } from "./ShoppingListContext";
-import "./App.css";
+import { ShoppingListContext } from "./context/ShoppingListContext";
+import "./styles/styles.css";
 
 export const App = () => {
   const { items } = useContext(ShoppingListContext);
 
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState("svi");
 
   const filteredItems =
-    activeTab === "all"
+    activeTab === "svi"
       ? items
-      : activeTab === "completed"
+      : activeTab === "zavrseni"
       ? items.filter((item) => item.completed)
       : items.filter((item) => !item.completed);
 
   return (
     <Box className="wrapper">
-      <Typography className="title">Grocery List</Typography>
+      <Typography className="title">CheckMate</Typography>
 
       <AddItemInput />
 
@@ -32,11 +32,10 @@ export const App = () => {
       </Box>
 
       {filteredItems.length === 0 ? (
-        <Typography className="no-items">There are no items.</Typography>
+        <Typography className="no-items">Lista je prazna.</Typography>
       ) : (
         <>
           <TaskList filteredItems={filteredItems} />
-
           <ClearButtons />
         </>
       )}
