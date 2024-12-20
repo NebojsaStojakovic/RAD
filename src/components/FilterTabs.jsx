@@ -4,7 +4,7 @@ import React from "react";
 export const FilterTabs = ({ activeTab, setActiveTab }) => {
   return (
     <Box className="tabs-wrapper">
-      {["svi", "nezavrseni", "zavrseni"].map((tab) => (
+      {["svi", "nezavršeni", "završeni"].map((tab) => (
         <Button
           key={tab}
           onClick={() => setActiveTab(tab)}

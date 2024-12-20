@@ -23,7 +23,7 @@ export const ConfirmationDialog = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel} color="primary">
-          Izadji
+          Izađi
         </Button>
         <Button onClick={onConfirm} color="error" variant="contained">
           Potvrdi

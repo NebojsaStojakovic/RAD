@@ -39,23 +39,23 @@ export const ClearButtons = () => {
     <>
       <Box className="clear-buttons">
         <Button onClick={() => openDialog("clearAll")} className="clear-button">
-          Obrisi sve
+          Obriši sve
         </Button>
         <Button
           onClick={() => openDialog("clearCompleted")}
           className="clear-button"
         >
-          Obrisi zavrsene
+          Obriši završene
         </Button>
       </Box>
 
       <ConfirmationDialog
         open={isDialogOpen}
         title={`Potvrdi brisanje svih ${
-          dialogAction === "clearAll" ? "stavki" : "zavrsenih stavki"
+          dialogAction === "clearAll" ? "stavki" : "završenih stavki"
         }`}
-        message={`Da li zelite da obrisete sve ${
-          dialogAction === "clearAll" ? "" : "zavrsene"
+        message={`Da li želite da obrišete sve ${
+          dialogAction === "clearAll" ? "" : "završene"
         } stavke`}
         onCancel={closeDialog}
         onConfirm={handleConfirm}

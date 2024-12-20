@@ -25,7 +25,7 @@ export const AddItemInput = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="Unesi ime stavke"
+        placeholder="Unesite ime stavke"
         value={newItem}
         onChange={(e) => setNewItem(e.target.value)}
         onKeyDown={(e) => {

@@ -22,8 +22,8 @@ export const SortSelect = () => {
       >
         <MenuItem value="addedAsc">Po datumu (Starije)</MenuItem>
         <MenuItem value="addedDesc">Po datumu (Novije)</MenuItem>
-        <MenuItem value="completedAsc">Prvo zavrseni (Stariji)</MenuItem>
-        <MenuItem value="completedDesc">Prvo zavrseni (Noviji)</MenuItem>
+        <MenuItem value="completedAsc">Prvo završeni (Stariji)</MenuItem>
+        <MenuItem value="completedDesc">Prvo završeni (Noviji)</MenuItem>
       </Select>
     </FormControl>
   );

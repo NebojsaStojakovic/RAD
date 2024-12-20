@@ -112,7 +112,7 @@ export const TaskListItem = ({ item, index }) => {
 
             {item.completed && (
               <Typography className="timestamp">
-                Zavrseno: {new Date(item.completedAt).toLocaleString()}
+                Završeno: {new Date(item.completedAt).toLocaleString()}
               </Typography>
             )}
 
@@ -124,7 +124,7 @@ export const TaskListItem = ({ item, index }) => {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Obrisi" placement="top">
+            <Tooltip title="Obriši" placement="top">
               <IconButton
                 onClick={() => handleOpenModal(item.id)}
                 color="error"
@@ -143,8 +143,8 @@ export const TaskListItem = ({ item, index }) => {
 
       <ConfirmationDialog
         open={isModalOpen}
-        title={`Obrisi ${itemNameToDelete}`}
-        message={`Da li zelite da obrisete "${itemNameToDelete}"?`}
+        title={`Obriši ${itemNameToDelete}`}
+        message={`Da li želite da obrišete "${itemNameToDelete}"?`}
         onCancel={handleCloseModal}
         onConfirm={handleDeleteItem}
       />

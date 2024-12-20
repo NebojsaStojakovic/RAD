@@ -16,7 +16,7 @@ export const App = () => {
   const filteredItems =
     activeTab === "svi"
       ? items
-      : activeTab === "zavrseni"
+      : activeTab === "završeni"
       ? items.filter((item) => item.completed)
       : items.filter((item) => !item.completed);
 
